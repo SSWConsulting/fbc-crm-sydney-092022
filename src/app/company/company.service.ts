@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, Observable, of } from 'rxjs';
 import { Company } from './company';
 
 @Injectable({
@@ -6,12 +8,21 @@ import { Company } from './company';
 })
 export class CompanyService {
 
-  constructor() { }
+  API_BASE = 'https://firebootcamp-crm-api.azurewebsites.net/api';
 
-  getCompanies(): Company[] {
-    return [
-      { name: 'Company one', email: 'one@test.com', phone: 111 },
-      { name: 'Company two', email: 'two@test.com', phone: 222 }
-    ];
+  constructor(private http: HttpClient) { }
+
+  getCompanies(): Observable<Company[]> {
+    return this.http.get<Company[]>(`${ this.API_BASE }/company`)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  handleError(error: any) {
+    console.error('CompanyService caught an error!', error);
+
+    //throw error; <-- send the error further downstream
+    return of([]); //<-- or DON'T send the error, and instead return something "gracefully"
   }
 }
