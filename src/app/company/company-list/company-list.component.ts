@@ -6,25 +6,20 @@ import { CompanyService } from '../company.service';
 @Component({
   selector: 'ssw-company-list',
   templateUrl: './company-list.component.html',
-  styleUrls: ['./company-list.component.scss']
+  styleUrls: ['./company-list.component.scss'],
 })
 export class CompanyListComponent implements OnInit {
-
   companies$: Observable<Company[]> = of([]);
 
-  constructor(private companyService: CompanyService) {
-
-  }
+  constructor(private companyService: CompanyService) {}
 
   ngOnInit(): void {
     this.getCompanies();
   }
 
   getCompanies() {
-
     // "short" way
     this.companies$ = this.companyService.getCompanies();
-
 
     // super long way
     // this.companyService.getCompanies().subscribe(
@@ -41,5 +36,11 @@ export class CompanyListComponent implements OnInit {
     //     }
     //   }
     // );
+  }
+
+  deleteCompany(companyId: number) {
+    this.companyService.deleteCompany(companyId).subscribe((company) => {
+      this.getCompanies();
+    });
   }
 }
