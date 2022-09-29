@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Company } from '../company';
+import { CompanyService } from '../company.service';
 
 @Component({
   selector: 'ssw-company-edit',
@@ -17,15 +19,17 @@ export class CompanyEditComponent implements OnInit {
   //   phone: new FormControl(''),
   //   email: new FormControl(''),
   // });
-  companyForm = this.fb.group({
-    name: ['', [Validators.required]],
-    phone: [''],
-    email: [''],
+  companyForm = this.fb.nonNullable.group({
+    name: new FormControl(''),
+    phone: new FormControl(''),
+    email: new FormControl(''),
   });
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private companyService: CompanyService,
     private fb: FormBuilder,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +43,22 @@ export class CompanyEditComponent implements OnInit {
   }
 
   saveCompany(): void {
-    // TODO: save company
+    if (this.companyForm.invalid) {
+      return;
+    }
+
+    const company: Company = {
+      id: 0,
+      name: this.companyForm.value.name!,
+      phone: +this.companyForm.value.phone!,
+      email: this.companyForm.value.email!,
+    };
+
+    if (this.isNewCompany) {
+      this.companyService
+        .addCompany(company)
+        .subscribe(() => this.router.navigate(['/company/list']));
+    }
   }
 
 }
