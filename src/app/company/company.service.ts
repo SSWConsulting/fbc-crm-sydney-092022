@@ -3,11 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
-  finalize,
-  map,
   Observable,
-  of,
-  tap,
 } from 'rxjs';
 import { Company } from './company';
 

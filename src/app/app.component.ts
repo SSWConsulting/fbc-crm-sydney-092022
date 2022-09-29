@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   constructor(
     private companyService: CompanyService
   ) {
+    
   }
 
   ngOnInit(): void {

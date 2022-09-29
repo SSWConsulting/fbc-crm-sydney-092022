@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'company/add', component: CompanyEditComponent },
   { path: 'company/edit/:id', component: CompanyEditComponent },
   { path: 'company/list', component: CompanyListComponent },
-
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
 ];
 
 @NgModule({
