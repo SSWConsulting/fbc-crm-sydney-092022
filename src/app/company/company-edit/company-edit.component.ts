@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl,
+   FormGroup, UntypedFormControl,
+   Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { VirtualTimeScheduler } from 'rxjs';
 import { Company } from '../company';
 import { CompanyService } from '../company.service';
 
@@ -13,14 +16,8 @@ export class CompanyEditComponent implements OnInit {
 
   companyId = 0;
   isNewCompany = false;
-
-  // companyForm = new FormGroup({
-  //   name: new FormControl('', [Validators.required]),
-  //   phone: new FormControl(''),
-  //   email: new FormControl(''),
-  // });
-  companyForm = this.fb.nonNullable.group({
-    name: new FormControl(''),
+  companyForm: FormGroup = this.fb.group({
+    name: new FormControl('', Validators.required),
     phone: new FormControl(''),
     email: new FormControl(''),
   });
@@ -30,7 +27,8 @@ export class CompanyEditComponent implements OnInit {
     private companyService: CompanyService,
     private fb: FormBuilder,
     private router: Router,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.companyId = +this.activatedRoute.snapshot.params['id'];
@@ -48,10 +46,8 @@ export class CompanyEditComponent implements OnInit {
     }
 
     const company: Company = {
+      ...this.companyForm.value,
       id: 0,
-      name: this.companyForm.value.name!,
-      phone: +this.companyForm.value.phone!,
-      email: this.companyForm.value.email!,
     };
 
     if (this.isNewCompany) {
