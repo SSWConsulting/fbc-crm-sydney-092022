@@ -41,12 +41,14 @@ export class CompanyEditComponent implements OnInit {
   }
 
   saveCompany(): void {
-    if (this.companyForm.invalid) {
+    const {invalid, value} = this.companyForm;
+
+    if (invalid) {
       return;
     }
 
     const company: Company = {
-      ...this.companyForm.value,
+      ...value,
       id: 0,
     };
 
