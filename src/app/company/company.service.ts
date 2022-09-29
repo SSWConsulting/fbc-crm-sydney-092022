@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, finalize, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, map, Observable, of, tap } from 'rxjs';
 import { Company } from './company';
 
 @Injectable({
@@ -9,15 +9,28 @@ import { Company } from './company';
 export class CompanyService {
   API_BASE = 'https://firebootcamp-crm-api.azurewebsites.net/api';
 
-  constructor(private http: HttpClient) {}
+  companies$: BehaviorSubject<Company[]> = new BehaviorSubject<Company[]>([])
 
-  getCompanies(): Observable<Company[]> {
-    return this.http.get<Company[]>(`${this.API_BASE}/company`).pipe(
-      catchError(this.handleError<Company[]>),
-      finalize(() => {
-        console.log('finalize triggered');
-      })
-    );
+  constructor(private http: HttpClient) {
+    this.loadCompanies();
+  }
+
+  loadCompanies() {
+    this.http.get<Company[]>(`${this.API_BASE}/company`)
+    .subscribe(companies => {
+      this.companies$.next(companies);
+    })
+  }
+
+  getCompanies() {
+    // return this.http.get<Company[]>(`${this.API_BASE}/company`).pipe(
+    //   catchError(this.handleError<Company[]>),
+    //   finalize(() => {
+    //     console.log('finalize triggered');
+    //   })
+    // );
+
+    return this.companies$;
   }
 
   getCompany(companyId: number): Observable<Company> {
