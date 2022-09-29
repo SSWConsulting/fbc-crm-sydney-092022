@@ -4,7 +4,7 @@ import { Company } from '../company';
 @Component({
   selector: 'ssw-company-table',
   templateUrl: './company-table.component.html',
-  styleUrls: ['./company-table.component.scss'],
+  styleUrls: ['./company-table.component.scss']
 })
 export class CompanyTableComponent implements OnInit {
 

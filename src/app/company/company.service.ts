@@ -27,6 +27,7 @@ export class CompanyService {
   }
 
   handleError<T>(error: any): Observable<T> {
+    console.error('CompanyService.handleError:', error);
     return new Observable<T>();
   }
 }

@@ -2,9 +2,7 @@
   <button class="btn btn-success">Add</button>
 </h1>
 
-<!-- TODO: explain the performance reasons for not passing the Observable down (ChangeDetection) -->
 <ssw-company-table
   [companies]="(companies$ | async) ?? []"
   (deleteButtonClicked)="deleteCompany($event)">
-
 </ssw-company-table>
