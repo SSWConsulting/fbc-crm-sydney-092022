@@ -51,12 +51,10 @@ export class CompanyService {
   }
 
   addCompany(company: Company): void {
-    setTimeout(() => {
       this.http
       .post<Company>(`${this.API_BASE}/company`, company)
       .pipe(catchError(this.handleError<Company>))
       .subscribe(() => this.loadCompanies());
-    }, 3000);
   }
 
   updateCompany(company: Company): void {
