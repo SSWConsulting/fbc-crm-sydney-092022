@@ -15,11 +15,15 @@ export class CompanyListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCompanies();
+
+    // this.companyService.companies$.next([]) // 😈
+    // this.companyService.getCompanies().complete();
   }
 
   getCompanies() {
     // "short" way
     this.companies$ = this.companyService.getCompanies();
+
 
     // super long way
     // this.companyService.getCompanies().subscribe(
@@ -39,9 +43,6 @@ export class CompanyListComponent implements OnInit {
   }
 
   deleteCompany(companyId: number) {
-    this.companyService.deleteCompany(companyId)
-    .subscribe((company) => {
-      this.companyService.loadCompanies();
-    });
+    this.companyService.deleteCompany(companyId);
   }
 }
