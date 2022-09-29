@@ -20,10 +20,23 @@ export class CompanyService {
     );
   }
 
+  getCompany(companyId: number): Observable<Company> {
+    return this.http.get<Company>(`${this.API_BASE}/company/${companyId}`)
+      .pipe(catchError(this.handleError<Company>));
+  }
+
   addCompany(company: Company): Observable<Company> {
     return this.http
       .post<Company>(
         `${this.API_BASE}/company`,
+        company)
+      .pipe(catchError(this.handleError<Company>));
+  }
+
+  updateCompany(company: Company): Observable<Company> {
+    return this.http
+      .put<Company>(
+        `${this.API_BASE}/company/${company.id}`,
         company)
       .pipe(catchError(this.handleError<Company>));
   }

@@ -35,8 +35,7 @@ export class CompanyEditComponent implements OnInit {
     this.isNewCompany = !this.companyId;
 
     if (!this.isNewCompany) {
-      // TODO: load company data and set on form
-      // this.getCompany();
+      this.getCompany();
     }
   }
 
@@ -56,7 +55,17 @@ export class CompanyEditComponent implements OnInit {
       this.companyService
         .addCompany(company)
         .subscribe(() => this.router.navigate(['/company/list']));
+    } else {
+      company.id = this.companyId;
+      this.companyService
+        .updateCompany(company)
+        .subscribe(() => this.router.navigate(['/company/list']));
     }
+  }
+
+  private getCompany(): void {
+    this.companyService.getCompany(this.companyId)
+      .subscribe(company => this.companyForm.patchValue(company))
   }
 
 }
